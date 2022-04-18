@@ -2,4 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 
 res = requests.get('https://news.ycombinator.com/news')
-print(res.text)
+Soup = BeautifulSoup(res.text, 'html.parser')
+
+links = Soup.select('.titlelink')
+votes = Soup.select('.score')
+print(votes[0].get('id'))
