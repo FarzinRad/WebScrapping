@@ -1,11 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
+import pprint
 
 res = requests.get('https://news.ycombinator.com/news')
 Soup = BeautifulSoup(res.text, 'html.parser')
 
 links = Soup.select('.titlelink')
 subtext = Soup.select('.subtext')
+
+
+def sorting_news(hnlist):
+    return sorted(hnlist, key=lambda k: k['votes'], reverse=True)
 
 
 def create_custom_func(links, subtext):
@@ -19,7 +24,7 @@ def create_custom_func(links, subtext):
             if points > 99:
                 hn.append({'title': title, 'links': href, 'votes': points})
 
-    return hn
+    return sorting_news(hn)
 
 
-print(create_custom_func(links, subtext))
+pprint.pprint(create_custom_func(links, subtext))
